@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -61,6 +63,46 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget damageText = Column
+  (
+    children: const 
+    [
+      Text("Effective Raw"),
+      Text("Raw"),
+      Text("Affinity"),
+      Text("Primary Damage Type"),
+      Text("Critical Damage Modifier"),
+      Text("Effective Element"),
+      Text("Element"),
+      Text("Element Damage Modifier"),
+      Text("Status")
+    ],
+  );
+
+  Widget defenseText = Column
+  (
+    children: const
+    [
+      Text("Health"),
+      Text("Stamina"),
+      Text("Defense"),
+      Text("Fire Resistance"),
+      Text("Water Resistance"),
+      Text("Thunder Resistance"),
+      Text("Ice Resistance"),
+      Text("Dragon Resistance")
+    ],
+  );
+
+  Widget sharpnessText = Column
+  (
+    children: const 
+    [
+      Text("Raw multiplier"),
+      Text("Elemental multiplier")
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -69,45 +111,63 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
+    return Scaffold
+    (
+      appBar: AppBar
+      (
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Row(
+      body: Row
+      (
         mainAxisAlignment: MainAxisAlignment.start,
-        children: const <Widget>[
-          Expanded(
-            child: Text(
+        children: const <Widget>
+        [
+          Expanded
+          (
+            child: Text
+            (
               'Skills',
-              style: TextStyle(
+              style: TextStyle
+              (
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 185, 143, 130)),
+                  color: Color.fromARGB(255, 185, 143, 130)
+              ),
             ),
           ),
-          Expanded(
-            child: Text(
+          Expanded
+          (
+            child: Text
+            (
               'Gear Loadout',
-              style: TextStyle(
+              style: TextStyle
+              (
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 185, 143, 130)),
+                  color: Color.fromARGB(255, 185, 143, 130)
+              ),
             ),
           ),
-          Expanded(
-            child: Text(
+          Expanded
+          (
+            child: Text
+            (
               'Character Stats',
-              style: TextStyle(
+              style: TextStyle
+              (
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 185, 143, 130)),
+                  color: Color.fromARGB(255, 185, 143, 130)
+              ),
+              // add this stats using function?
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton
+      (
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
