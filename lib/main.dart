@@ -1,4 +1,4 @@
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:flutter/material.dart';
 
@@ -65,8 +65,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget damageText = Column
   (
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: const 
-    [
+    [  
+      Text
+      (
+        "Damage",
+        style: TextStyle
+        (
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 185, 143, 130)
+        ),
+      ),
+      //),
       Text("Effective Raw"),
       Text("Raw"),
       Text("Affinity"),
@@ -81,8 +94,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget defenseText = Column
   (
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: const
     [
+      Text
+      (
+        "Defense Stats",
+        style: TextStyle
+        (
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 185, 143, 130)
+        )
+      ),
       Text("Health"),
       Text("Stamina"),
       Text("Defense"),
@@ -96,8 +121,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget sharpnessText = Column
   (
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: const 
     [
+      Text
+      (
+        "Sharpness",
+        style: TextStyle
+        (
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 185, 143, 130)
+        )
+      ),
       Text("Raw multiplier"),
       Text("Elemental multiplier")
     ],
@@ -122,48 +159,75 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Row
       (
         mainAxisAlignment: MainAxisAlignment.start,
-        children: const <Widget>
+        children:
         [
           Expanded
           (
-            child: Text
+            child : Column
             (
-              'Skills',
-              style: TextStyle
-              (
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 185, 143, 130)
-              ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children : const 
+              [
+                Text 
+                (
+                  'Skills',
+                  style: TextStyle
+                  (
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 185, 143, 130)
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded
           (
-            child: Text
+            child : Column
             (
-              'Gear Loadout',
-              style: TextStyle
-              (
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 185, 143, 130)
-              ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const
+              [
+                Text
+                (
+                  'Gear Loadout',
+                  style: TextStyle
+                  (
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 185, 143, 130)
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded
           (
-            child: Text
+            child: Column
             (
-              'Character Stats',
-              style: TextStyle
-              (
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 185, 143, 130)
-              ),
-              // add this stats using function?
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+              [
+                const Text
+                (
+                  'Character Stats',
+                  style: TextStyle
+                  (
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 185, 143, 130)
+                  ),
+                ), // add this stats using function?
+                damageText,
+                defenseText,
+                sharpnessText
+              ],
             ),
-          ),
+          )
+          
         ],
       ),
       floatingActionButton: FloatingActionButton
