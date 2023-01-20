@@ -31,6 +31,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//enum SwitchSkill1 {bruh , nice}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -63,13 +65,51 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+// holds all of the gear
+  Widget gearSelection = Column
+  (
+    children: 
+    [
+      Row
+      (
+        children: 
+        [
+          // first column has image
+          Column
+          (
+            
+          ),
+          // has name of weapon and rampage skills
+          Column
+          (
+            children : const 
+            [
+              Text("NICE WEAPON BRUH")
+            ],
+          ),
+          // has decorations
+          Column
+          (
+
+          ),
+          // attack value, elem damage
+          Column
+          (
+
+          )
+        ],
+      )
+    ],
+  );
+
+
   Widget damageText = Column
   (
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: const 
+    children :
     [  
-      Text
+      const Text
       (
         "Damage",
         style: TextStyle
@@ -80,15 +120,87 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       //),
-      Text("Effective Raw"),
-      Text("Raw"),
-      Text("Affinity"),
-      Text("Primary Damage Type"),
-      Text("Critical Damage Modifier"),
-      Text("Effective Element"),
-      Text("Element"),
-      Text("Element Damage Modifier"),
-      Text("Status")
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Effective Raw"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Raw"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Affinity"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Primary Damage Type"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Critical Damage Modifier"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Effective Element"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Element"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Element Damage Modifier"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Status"),
+          Text("0"),
+        ],
+      ),
     ],
   );
 
@@ -96,9 +208,9 @@ class _MyHomePageState extends State<MyHomePage> {
   (
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: const
+    children:
     [
-      Text
+      const Text
       (
         "Defense Stats",
         style: TextStyle
@@ -108,14 +220,78 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Color.fromARGB(255, 185, 143, 130)
         )
       ),
-      Text("Health"),
-      Text("Stamina"),
-      Text("Defense"),
-      Text("Fire Resistance"),
-      Text("Water Resistance"),
-      Text("Thunder Resistance"),
-      Text("Ice Resistance"),
-      Text("Dragon Resistance")
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Health"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Stamina"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Defense"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Fire Resistance"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Water Resistance"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Thunder Resistance"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Ice Resistance"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Dragon Resistance"),
+          Text("0"),
+        ],
+      )
     ],
   );
 
@@ -123,9 +299,9 @@ class _MyHomePageState extends State<MyHomePage> {
   (
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: const 
+    children:  
     [
-      Text
+      const Text
       (
         "Sharpness",
         style: TextStyle
@@ -135,10 +311,27 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Color.fromARGB(255, 185, 143, 130)
         )
       ),
-      Text("Raw multiplier"),
-      Text("Elemental multiplier")
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Raw multiplier"),
+          Text("0"),
+        ],
+      ),
+      Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const 
+        [
+          Text("Elemental multiplier"),
+          Text("0"),
+        ],
+      ),
     ],
   );
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,9 +381,9 @@ class _MyHomePageState extends State<MyHomePage> {
             (
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const
+              children: 
               [
-                Text
+                const Text
                 (
                   'Gear Loadout',
                   style: TextStyle
@@ -200,6 +393,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Color.fromARGB(255, 185, 143, 130)
                   ),
                 ),
+                gearSelection,
               ],
             ),
           ),
