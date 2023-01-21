@@ -332,6 +332,22 @@ class _MyHomePageState extends State<MyHomePage> {
     ],
   );
 
+  Widget generateSectionHeaderWidget({ required String title }) {
+    return Padding
+    (
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text 
+      (
+        title,
+        style: const TextStyle
+        (
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 185, 143, 130),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -349,80 +365,57 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Row
+      body: Padding
       (
-        mainAxisAlignment: MainAxisAlignment.start,
-        children:
-        [
-          Expanded
-          (
-            child : Column
+        padding: const EdgeInsets.all(8.0),
+        child: Row
+        (
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:
+          [
+            Expanded
             (
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children : const 
-              [
-                Text 
-                (
-                  'Skills',
-                  style: TextStyle
-                  (
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 185, 143, 130)
-                  ),
-                ),
-              ],
+              child : Column
+              (
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children : 
+                [
+                  generateSectionHeaderWidget(title: 'Skills'),
+                ],
+              ),
             ),
-          ),
-          Expanded
-          (
-            child : Column
+            Expanded
             (
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: 
-              [
-                const Text
-                (
-                  'Gear Loadout',
-                  style: TextStyle
-                  (
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 185, 143, 130)
-                  ),
-                ),
-                gearSelection,
-              ],
+              child : Column
+              (
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: 
+                [
+                  generateSectionHeaderWidget(title: 'Gear Loadout'),
+                  gearSelection,
+                ],
+              ),
             ),
-          ),
-          Expanded
-          (
-            child: Column
+            Expanded
             (
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              [
-                const Text
-                (
-                  'Character Stats',
-                  style: TextStyle
-                  (
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 185, 143, 130)
-                  ),
-                ), // add this stats using function?
-                damageText,
-                defenseText,
-                sharpnessText
-              ],
+              child: Column
+              (
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:
+                [
+                  generateSectionHeaderWidget(title: 'Character Stats'),
+                  // add this stats using function?
+                  damageText,
+                  defenseText,
+                  sharpnessText
+                ],
+              ),
             ),
-          )
-          
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton
       (
