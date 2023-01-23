@@ -7,12 +7,14 @@ import requests
 
 # may need to loop together all of the webpages to scrape all of the weapons 
 # the following weapons have special exceptions
-# bow has coatings
-# gunlance has different shelling types so will have to account for that
-# hunting horn requires data about the music it has
-# switch axe and charge blade has phials 
-# insect glaive has kinsect levels
-# light and heavy bowgun has.... stuff
+# bow has coatings Affinity, Recovery, Brace are Arc Shots
+# below the 4 levels are for the charge shot
+# Compatiable coatings are the next one over. If there is no class value, it is a COMPATIABLE COATING. Else it is not compatiable. If the text is in green, they are enhanced coatings
+# gunlance has different shelling types so will have to account for that - add extra code to add in the type of shelling and level
+# hunting horn requires data about the music it has - add in extra code to determine each song
+# switch axe and charge blade has phials - add extra code to extract phial information
+# insect glaive has kinsect levels - add extra code to find kinsect level
+# light and heavy bowgun has.... stuff - first column is the deviation, recoil, reload stats. Next column over is how many types of ammo it can shoot with how many shots
 # sites go from view=0 to view=13
 gsSite = "https://mhrise.kiranico.com/data/weapons?view=0"
 headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'}
