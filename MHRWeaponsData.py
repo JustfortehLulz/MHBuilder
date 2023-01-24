@@ -16,8 +16,26 @@ import requests
 # insect glaive has kinsect levels - add extra code to find kinsect level
 # light and heavy bowgun has.... stuff - first column is the deviation, recoil, reload stats. Next column over is how many types of ammo it can shoot with how many shots
 # sites go from view=0 to view=13
-gsSite = "https://mhrise.kiranico.com/data/weapons?view=0"
+# 0 Great Sword
+# 1 Sword and Shield
+# 2 Dual Blades
+# 3 Long Sword
+# 4 Hammer
+# 5 Hunting Horn
+# 6 Lance
+# 7 Gunlance
+# 8 Switch Axe
+# 9 Charge Blade
+# 10 Insect Glaive
+# 11 Bow
+# 12 H Bowgun
+# 13 L Bowgun
+
 headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'}
+iteration = 11
+
+# for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)
+gsSite = "https://mhrise.kiranico.com/data/weapons?view=11"
 gsPage = requests.get(gsSite, headers=headers)
 soup = BeautifulSoup(gsPage.content, "html.parser")
 
@@ -128,6 +146,25 @@ for elem in rows:
                 isFirstRow = False
             print(elem['fill'] + " " + elem['width'])
             sharpColor.append(elem['fill'])
+
+    # special cases
+    # first - hunting horn songs and gunlance 
+    if(iteration == 5 or iteration == 7 or iteration == 8 or iteration == 9 or iteration == 10):
+        # grab the song names
+        songsList = bonusesAndSharpness[4]
+        #print(songsList)
+        for elem in songsList:
+            values = elem.text
+            parsedval = " ".join(values.split())
+            if(iteration == 5):
+                print((elem.text).strip())
+            else:
+                print(parsedval)
+    elif(iteration == 11):
+        chargeShot = bonusesAndSharpness[3]
+        print(chargeShot)
+        bowCoating = bonusesAndSharpness[4]
+        print(bowCoating)
 
     # grab the rampage skills from each weapon click on the link of the weapon(grab the url?)
     # grab url and then use bs4 to look at the skills 
