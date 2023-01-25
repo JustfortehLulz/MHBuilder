@@ -32,10 +32,10 @@ import requests
 # 13 L Bowgun
 
 headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'}
-iteration = 11
+iteration = 12
 
 # for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)
-gsSite = "https://mhrise.kiranico.com/data/weapons?view=11"
+gsSite = "https://mhrise.kiranico.com/data/weapons?view=12"
 gsPage = requests.get(gsSite, headers=headers)
 soup = BeautifulSoup(gsPage.content, "html.parser")
 
@@ -47,10 +47,15 @@ rows = weaponTable.findChildren("tr")
 # go through the entire table going through each row
 for elem in rows:
     # get weapon name
-    weaponName = elem.find(class_ = "text-sky-500 dark:text-sky-400 group-hover:text-sky-900 dark:group-hover:text-sky-300")
+
+    weaponName = elem.find("a" , {"class": "text-sky-500 dark:text-sky-400 group-hover:text-sky-900 dark:group-hover:text-sky-300"})
+    #weaponName = elem.find(class_ = "text-sky-500 dark:text-sky-400 group-hover:text-sky-900 dark:group-hover:text-sky-300")
     #used to find the rampage skills
+
+    #print(weaponName)
     weaponLink = weaponName['href']
-    print(weaponName.get_text())
+    print(weaponName.text)
+    #print(weaponName.get_text())
 
     # get deco slots and rampage slots
     slots = elem.find_all(class_ = "inline-flex items-center px-2 py-0.5 rounded text-xs font-medium mr-1 bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300")
@@ -160,11 +165,53 @@ for elem in rows:
                 print((elem.text).strip())
             else:
                 print(parsedval)
+    #bow stuff
     elif(iteration == 11):
         chargeShot = bonusesAndSharpness[3]
-        print(chargeShot)
+        chargeShot = chargeShot.find_all("div")
+        isArcShot = True
+        chargeLevel = 1
+        #print(chargeShot)
+        for elem in chargeShot:
+            if(isArcShot):
+                print("Arc Shot: " + elem.text)
+                isArcShot = False
+            else:
+                print("Charge Shot " + str(chargeLevel) + ": " + elem.text)
+                chargeLevel = chargeLevel + 1
+
+        # get coatings
         bowCoating = bonusesAndSharpness[4]
-        print(bowCoating)
+        compatiableCoating = bowCoating.find_all("div", {"class": ""})
+        uncompatiableCoating = bowCoating.find_all("div", {"class": "text-gray-400"})
+        enhancedCoating = bowCoating.find_all("div", {"class":"text-green-500"})
+        # print(compatiableCoating)
+        # print(uncompatiableCoating)
+        # print(enhancedCoating)
+
+        if(len(compatiableCoating) != 0):
+            for elem in compatiableCoating:
+                print("Compatiable Coating: " + elem.text)
+        else:
+            print("NO COMPATIABLE COATING")
+        if(len(uncompatiableCoating) != 0):
+            for elem in uncompatiableCoating:
+                print("Incompatiable Coating: " + elem.text)
+        else:
+            print("NO INCOMPATIABLE COATING")
+        if(len(enhancedCoating) != 0):
+            for elem in enhancedCoating:
+                print("Enhanced Coating: " + elem.text)
+        else:
+            print("NO ENHANCED COATING")
+        #bowCoating = bowCoating.find_all("div")
+        #print(bowCoating)
+    elif(iteration == 12 or iteration == 13):
+        #light and heavy bowgun
+        shotStats = bonusesAndSharpness[3]
+        shotTypes = bonusesAndSharpness[4]
+        print(shotStats)
+        print(shotTypes)
 
     # grab the rampage skills from each weapon click on the link of the weapon(grab the url?)
     # grab url and then use bs4 to look at the skills 
