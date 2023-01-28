@@ -47,12 +47,15 @@ rows = weaponTable.findChildren("tr")
 # go through the entire table going through each row
 for elem in rows:
     # get weapon name
+    #print(elem)
 
     weaponName = elem.find("a" , {"class": "text-sky-500 dark:text-sky-400 group-hover:text-sky-900 dark:group-hover:text-sky-300"})
     #weaponName = elem.find(class_ = "text-sky-500 dark:text-sky-400 group-hover:text-sky-900 dark:group-hover:text-sky-300")
     #used to find the rampage skills
 
     #print(weaponName)
+    if(weaponName == None):
+        continue
     weaponLink = weaponName['href']
     print(weaponName.text)
     #print(weaponName.get_text())
@@ -209,9 +212,57 @@ for elem in rows:
     elif(iteration == 12 or iteration == 13):
         #light and heavy bowgun
         shotStats = bonusesAndSharpness[3]
-        shotTypes = bonusesAndSharpness[4]
-        print(shotStats)
-        print(shotTypes)
+        #shotTypes = bonusesAndSharpness[4]
+        #print(shotStats)
+        shotStatsVal = shotStats.find_all("div")
+        shotTypes = shotStats.find_all("td")
+        shotTypesAgain = shotStats.find_all("table")
+        for elem in shotStatsVal:
+            #Deviation, Recoil, Reload
+            values = elem.text
+            parsedval = values.split("\n")
+            #print(parsedval)
+            i = 0
+            while i < len(parsedval):
+                parsedval[i] = parsedval[i].strip()
+                i = i + 1
+            #print(parsedval)
+            parsedval = " ".join(parsedval)
+            parsedval = parsedval.strip()
+            print(parsedval)
+        #print(shotStatsVal)
+        shotTypes = shotTypes[1:2]
+        # gets the first column of shots
+        #print(shotTypes)
+        levelNum = 1
+        for i in range(len(shotTypes)):
+            data = shotTypes[i].find_all("td")
+            shotName = ""
+            levelNum = 1
+            for j in range(len(data)):
+                if("Nrm" in data[j].text):
+                    shotName = "Normal Ammo"
+                    levelNum = 1
+                elif("Prc" in data[j].text):
+                    shotName = "Pierce Ammo"
+                    levelNum = 1
+                elif("Spr" in data[j].text):
+                    shotName = "Spread Ammo"
+                    levelNum = 1
+                elif("Shr" in data[j].text):
+                    shotName = "Shrapnel Ammo"
+                    levelNum = 1
+                elif("Sti" in data[j].text):
+                    shotName = "Sticky Ammo"
+                    levelNum = 1
+                elif("Clu" in data[j].text):
+                    shotName = "Cluster Bomb"
+                    levelNum = 1
+                else:
+                    print(shotName + " " + str(levelNum) + " " + data[j].text)
+                    levelNum = levelNum + 1
+        print(shotTypesAgain[2:4])
+
 
     # grab the rampage skills from each weapon click on the link of the weapon(grab the url?)
     # grab url and then use bs4 to look at the skills 
