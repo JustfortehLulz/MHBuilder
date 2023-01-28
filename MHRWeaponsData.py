@@ -261,7 +261,116 @@ for elem in rows:
                 else:
                     print(shotName + " " + str(levelNum) + " " + data[j].text)
                     levelNum = levelNum + 1
-        print(shotTypesAgain[2:4])
+        #print(shotTypesAgain[2:4])
+        print("OTHER SHOTS")
+        shotTypesAgain = shotTypesAgain[2:5]
+        for i in range(len(shotTypesAgain)):
+            data = shotTypesAgain[i].find_all("td")
+            shotName = ""
+            levelNum = 1
+            isFire = False
+            isWater = False
+            isThunder = False
+            isIce = False
+            isDragon = False
+            for j in range(len(data)):
+                if("Fir" in data[j].text):
+                    shotName = "Flaming Ammo"
+                    isFire = True
+                    #shotName = "Piercing Fire Ammo"
+                elif("Wat" in data[j].text):
+                    shotName = "Water Ammo"
+                    isWater = True
+                    #shotName = "Piercing Water Ammo"
+                elif("Thn" in data[j].text):
+                    shotName = "Thunder Ammo"
+                    isThunder = True
+                    #shotName = "Piercing Thunder Ammo"
+                elif("Ice" in data[j].text):
+                    shotName = "Freeze Ammo"
+                    isIce = True
+                    #shotName = "Piercing Ice Ammo"
+                elif("Dra" in data[j].text):
+                    shotName = "Dragon Ammo"
+                    isDragon = True
+                    #shotName = "Piercing Dragon Ammo"
+                elif("Poi" in data[j].text):
+                    shotName = "Poison Ammo"
+                elif("Par" in data[j].text):
+                    shotName = "Paralysis Ammo"
+                    levelNum = 1
+                elif("Sle" in data[j].text):
+                    shotName = "Sleep Ammo"
+                    levelNum = 1
+                elif("Exh" in data[j].text):
+                    shotName = "Exhaust Ammo"
+                    levelNum = 1
+                elif("Rec" in data[j].text):
+                    shotName = "Recover Ammo"
+                    levelNum = 1
+                elif("Dem" in data[j].text):
+                    shotName = "Demon Ammo"
+                    levelNum = 1
+                elif("Amr" in data[j].text):
+                    shotName = "Armor Ammo"
+                    levelNum = 1
+                elif("Tra" in data[j].text):
+                    shotName = "Tranq Ammo"
+                    levelNum = 1
+                elif("Wyv" in data[j].text):
+                    shotName = "Wyvern Ammo"
+                    levelNum = 1
+                elif("Sli" in data[j].text):
+                    shotName = "Slicing Ammo"
+                    levelNum = 1
+                else:
+                    if(isFire):
+                        if(levelNum == 1):
+                            print(shotName + " " + data[j].text)
+                            levelNum = levelNum + 1
+                        else:
+                            print("Piercing Fire Ammo " + data[j].text)
+                            isFire = False
+                            levelNum = 1
+                    elif(isWater):
+                        if(levelNum == 1):
+                            print(shotName + " " + data[j].text)
+                            levelNum = levelNum + 1
+                        else:
+                            print("Piercing Water Ammo " + data[j].text)
+                            isWater = False
+                            levelNum = 1
+                    elif(isThunder):
+                        if(levelNum == 1):
+                            print(shotName + " " + data[j].text)
+                            levelNum = levelNum + 1
+                        else:
+                            print("Piercing Thunder Ammo " + data[j].text)
+                            isThunder = False
+                            levelNum = 1
+                    elif(isIce):
+                        if(levelNum == 1):
+                            print(shotName + " " + data[j].text)
+                            levelNum = levelNum + 1
+                        else:
+                            print("Piercing Ice Ammo " + data[j].text)
+                            isIce = False
+                            levelNum = 1
+                    elif(isDragon):
+                        if(levelNum == 1):
+                            print(shotName + " " + data[j].text)
+                            levelNum = levelNum + 1
+                        else:
+                            print("Piercing Dragon Ammo " + data[j].text)
+                            isDragon = False
+                            levelNum = 1
+                    else:
+                        if(shotName == "Demon Ammo" or shotName == "Armor Ammo" or shotName == "Tranq Ammo" or shotName == "Wyvern Ammo" or shotName == "Slicing Ammo"):
+                            print(shotName + " " + data[j].text)
+                        else:
+                            print(shotName + " " + str(levelNum) + " " + data[j].text)
+                        levelNum = levelNum + 1
+
 
 
     # grab the rampage skills from each weapon click on the link of the weapon(grab the url?)
