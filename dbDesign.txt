@@ -1,0 +1,89 @@
+-- Table of Weapons --
+
+## Weapon Table ##
+Name (Primary Key)
+Decorations Slots(Foreign Key)
+Rampage Decorations (Foreign Key)
+Attack
+Elemental Type
+Elemental Damage
+Affinity
+Defense
+Red Sharpness Actual
+Orange Sharpness Actual
+Yellow Sharpness Actual
+Green Sharpness Actual
+Blue Sharpness Actual
+White Sharpness Actual
+Purple Sharpness Actual
+Red Sharpness Potential
+Orange Sharpness Potential
+Yellow Sharpness Potential
+Green Sharpness Potential
+Blue Sharpness Potential
+White Sharpness Potential
+Purple Sharpness Potential
+Hunting Horn Song List (Foreign Key)
+Shelling Type (Gunlance Only)
+Phial Type (Switch Axe and Charge Blade)
+Phial Damage (Switch Axe)
+Kinsect Level (Insect Glaive)
+Arc Shot Type (Bow)
+Charge Shot Types (Bow) (Foreign Key)
+Bow Coating (Bow) (Foreign Key)
+Deviation (Light and Heavy Bowgun)
+Recoil (Light and Heavy Bowgun)
+Reload (Light and Heavy Bowgun)
+Types of Shots (Light and Heavy Bowgun) (Foreign Key)
+Rampage Skills (Foreign Key)
+
+-- Table of Decoration Slots --
+## Decoration Levels of Weapons ##
+Name (Foreign Key from Name Weapon Table and Armor Table)
+Decoration Level
+Rampage Level
+
+-- Table of Hunting Horn Songs --
+## Hunting Horn Songs ##
+Name (Foreign Key from Name Weapon Table)
+Song Name
+
+-- Table of Charge Shot Types --
+## Charge Shot Types ##
+Name (Foreign Key from Name Weapon Table)
+Charge Shot Level
+Charge Shot Type
+
+-- Table of Bow Coating --
+## Bow Coating ##
+Name (Foreign Key from Name Weapon Table)
+Coating Type
+Compatiable
+
+
+-- Table of Light and Heavy Bowgun Shots --
+## Light and Heavy Bowgun Shot Types ##
+Name (Foreign Key from Name Weapon Table)
+Shot Type
+Level
+
+-- Table of Rampage Skills --
+## Rampage Skills ##
+Name (Foreign Key from Name Weapon Table)
+Rampage Skill
+
+-- Table of Armor --
+## Armor Table ##
+Name (Primary Key)
+Defense 
+Fire Resistance
+Water Resistance
+Ice Resistance
+Thunder Resistance
+Dragon Resistance
+Decorations Slots(Foreign Key)
+Skill Name (Foreign Key)
+Skill Level (Foreign Key)
+
+-- Table of Jewels --
+

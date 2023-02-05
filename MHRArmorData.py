@@ -28,11 +28,13 @@ while i < 10:
         #name of weapon
         print(armorName.text)
 
-        # get defense and elemental resistances 
+        # get defense and elemental resistances and skills
         defAndResist = elem.find_all("div")  
         #print(defAndResist)
         for i in range(len(defAndResist)):
             values = defAndResist[i].text
+            if(i > 5):
+                print("Now we talking skills")
             print(values.strip())
 
         deco = elem.find_all("img", src = True)
