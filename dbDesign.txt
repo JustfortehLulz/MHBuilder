@@ -88,8 +88,8 @@ Skill Level (Foreign Key)
 -- Table of Jewels --
 
 Name 
-Skill Name (Primary Key and Foreign Key)
-Skill Level (Primary Key and Foreign Key)
+Skill Name (Primary Key and Foreign Key from Skill Name Table of Skills)
+Skill Level (Primary Key and Foreign Key from Skill Level Table of Skills)
 
 -- Table of Rampage Jewels --
 
@@ -100,4 +100,11 @@ Rampage Description
 -- Table of Rampage Skills --
 
 Rampage Skill (Primary Key and Foreign Key)
+Bonuses
+
+-- Table of Skills --
+
+Skill Name (Primary Key)
+Skill Level (Primary Key)
+Description
 Bonuses
