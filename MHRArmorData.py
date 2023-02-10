@@ -7,6 +7,26 @@ import requests
 
 headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'}
 
+createWeaponDB = r"C:\Users\JY\Documents\FlutterProject\mhbuilder\WeaponData.db"
+
+conn = sqlite3.connect(createWeaponDB)
+
+c = conn.cursor()
+
+c.execute('''
+            CREATE TABLE IF NOT EXISTS armorTable
+            (
+                [name] text Primary Key,
+                defense integer,
+                fire_resistance integer,
+                water_resistance integer,
+                ice_resistance integer,
+                thunder_resistance integer,
+                dragon_resistance integer
+            )
+        ''')
+
+
 # there are multiple pages with the armor values view=0 to view=9
 i = 0
 while i < 10:
