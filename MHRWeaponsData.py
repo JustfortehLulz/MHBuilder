@@ -42,36 +42,96 @@ c = conn.cursor()
 
 c.execute('''
             CREATE TABLE IF NOT EXISTS weaponTable
-            ([name] text Primary Key,
-            weapon_type text,
-            attack integer,
-            elemental_type text,
-            elemental_damage integer,
-            affinity text,
-            defense integer,
-            red_sharpness_actual integer,
-            orange_sharpness_actual integer,
-            yellow_sharpness_actual integer
-            green_sharpness_actual integer,
-            blue_sharpness_actual integer,
-            white_sharpness_actual integer,
-            purple_sharpness_actual integer,
-            red_sharpness_potential integer,
-            orange_sharpness_potential integer,
-            yellow_sharpness_potential integer
-            green_sharpness_potential integer,
-            blue_sharpness_potential integer,
-            white_sharpness_potential integer,
-            purple_sharpness_potential integer,
-            shelling_type text,
-            phial_type text,
-            phial_damage text,
-            kinsect_level text,
-            arc_shot_type text,
-            deviation text,
-            recoil text
+            (
+                weaponID integer PRIMARY KEY,
+                name text,
+                weapon_type text,
+                attack integer,
+                elemental_type text,
+                elemental_damage integer,
+                affinity text,
+                defense integer,
+                red_sharpness_actual integer,
+                orange_sharpness_actual integer,
+                yellow_sharpness_actual integer
+                green_sharpness_actual integer,
+                blue_sharpness_actual integer,
+                white_sharpness_actual integer,
+                purple_sharpness_actual integer,
+                red_sharpness_potential integer,
+                orange_sharpness_potential integer,
+                yellow_sharpness_potential integer
+                green_sharpness_potential integer,
+                blue_sharpness_potential integer,
+                white_sharpness_potential integer,
+                purple_sharpness_potential integer,
+                shelling_type text,
+                phial_type text,
+                phial_damage text,
+                kinsect_level text,
+                arc_shot_type text,
+                deviation text,
+                recoil text
             );
         ''') 
+
+c.execute('''
+            CREATE TABLE IF NOT EXISTS decorationSlotsTable
+            (
+                [name] text,
+                [decoration_level] text,
+                rampage_level text
+                weaponID integer,
+                armorID integer,
+                PRIMARY KEY (name,decoration_level),
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
+                FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
+            )
+        ''')
+
+c.execute('''
+
+            CREATE TABLE IF NOT EXISTS huntingHornSongs
+            (
+                weaponID integer,
+                name text,
+                songName text,
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+            )
+        ''')
+
+c.execute('''
+            CREATE TABLE IF NOT EXISTS chargeShotTypes
+            (
+                weaponID integer,
+                name text,
+                chargeShotType text,
+                chargeShotLevel integer,
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+            )
+        ''')
+
+c.execute('''
+            CREATE TABLE IF NOT EXISTS bowCoating
+            (
+                weaponID integer,
+                name text,
+                coatingType text,
+                compatiable integer CHECK (compatiable IN (0,1)),
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+            )
+        ''')
+
+c.execute('''
+            CREATE TABLE IF NOT EXISTS lightOrHeavyBowgunShots
+            (
+                weaponID integer,
+                name text,
+                shotType text,
+                level integer,
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+            )
+    ''')
 
 
 # for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)

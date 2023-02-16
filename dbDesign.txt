@@ -1,7 +1,8 @@
 -- Table of Weapons --
 
 ## Weapon Table ##
-Name (Primary Key)
+WeaponID (Primary Key)
+Name (Foreign Key)
 Decorations Slots(Foreign Key)
 Rampage Decorations (Foreign Key)
 Attack
@@ -38,43 +39,57 @@ Types of Shots (Light and Heavy Bowgun) (Foreign Key)
 Rampage Skills (Foreign Key)
 
 -- Table of Decoration Slots --
-## Decoration Levels of Weapons ##
-Name (Foreign Key from Name Weapon Table and Armor Table)
+## Decoration Levels of Weapons and Armor ##
+
+WeaponID (Foreign Key from weapons table)
+ArmorID (Foreign Key from armor table)
 Decoration Level
 Rampage Level
 
 -- Table of Hunting Horn Songs --
 ## Hunting Horn Songs ##
-Name (Foreign Key from Name Weapon Table)
+
+WeaponID (Foreign Key from weapons table)
+Name
 Song Name
 
 -- Table of Charge Shot Types --
 ## Charge Shot Types ##
-Name (Foreign Key from Name Weapon Table)
+
+WeaponID (Foreign Key from weapons table)
+Name
 Charge Shot Level
 Charge Shot Type
 
 -- Table of Bow Coating --
 ## Bow Coating ##
-Name (Foreign Key from Name Weapon Table)
+
+WeaponID (Foreign Key from weapons table)
+Name
 Coating Type
 Compatiable
 
 
 -- Table of Light and Heavy Bowgun Shots --
 ## Light and Heavy Bowgun Shot Types ##
-Name (Foreign Key from Name Weapon Table)
+
+WeaponID (Foreign Key from weapons table)
+Name
 Shot Type
 Level
 
 -- Table of Rampage Skills --
 ## Rampage Skills ##
-Name (Foreign Key from Name Weapon Table)
+
+RampageSkillID (Primary Key)
+Name
 Rampage Skill
 
 -- Table of Armor --
 ## Armor Table ##
-Name (Primary Key)
+
+ArmorID (Primary Key)
+Name
 Defense 
 Fire Resistance
 Water Resistance
@@ -87,24 +102,28 @@ Skill Level (Foreign Key)
 
 -- Table of Jewels --
 
+JewelID (Primary Key)
 Name 
-Skill Name (Primary Key and Foreign Key from Skill Name Table of Skills)
-Skill Level (Primary Key and Foreign Key from Skill Level Table of Skills)
+Skill Name 
+Skill Level
 
 -- Table of Rampage Jewels --
 
+RampageJewelID (Primary Key)
 Name
-Rampage Skill (Primary Key)
+Rampage Skill
 Rampage Description
 
 -- Table of Rampage Skills --
 
-Rampage Skill (Primary Key and Foreign Key)
+RampageSkillID (Primary Key)
+Rampage Skill
 Bonuses
 
 -- Table of Skills --
 
-Skill Name (Primary Key)
-Skill Level (Primary Key)
+SkillID (Primary Key)
+Skill Name
+Skill Level
 Description
 Bonuses

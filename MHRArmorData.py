@@ -16,16 +16,30 @@ c = conn.cursor()
 c.execute('''
             CREATE TABLE IF NOT EXISTS armorTable
             (
-                [name] text Primary Key,
+                armorID integer PRIMARY KEY,
+                [name] text,
                 defense integer,
                 fire_resistance integer,
                 water_resistance integer,
                 ice_resistance integer,
                 thunder_resistance integer,
                 dragon_resistance integer
-            )
+            );
         ''')
 
+c.execute('''
+            CREATE TABLE IF NOT EXISTS decorationSlotsTable
+            (
+                [name] text,
+                [decoration_level] text,
+                rampage_level text
+                weaponID integer,
+                armorID integer,
+                PRIMARY KEY (name,decoration_level),
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
+                FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
+            )
+        ''')
 
 # there are multiple pages with the armor values view=0 to view=9
 i = 0
