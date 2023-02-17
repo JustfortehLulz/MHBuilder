@@ -493,6 +493,13 @@ while iteration < 14:
 
         
         print()
+        # inserting values into database
+
+
+
+
+
+
         iteration = iteration + 1
 
 conn.close()
