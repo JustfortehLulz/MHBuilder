@@ -53,14 +53,14 @@ c.execute('''
                 defense integer,
                 red_sharpness_actual integer,
                 orange_sharpness_actual integer,
-                yellow_sharpness_actual integer
+                yellow_sharpness_actual integer,
                 green_sharpness_actual integer,
                 blue_sharpness_actual integer,
                 white_sharpness_actual integer,
                 purple_sharpness_actual integer,
                 red_sharpness_potential integer,
                 orange_sharpness_potential integer,
-                yellow_sharpness_potential integer
+                yellow_sharpness_potential integer,
                 green_sharpness_potential integer,
                 blue_sharpness_potential integer,
                 white_sharpness_potential integer,
@@ -80,7 +80,7 @@ c.execute('''
             (
                 [name] text,
                 [decoration_level] text,
-                rampage_level text
+                rampage_level text,
                 weaponID integer,
                 armorID integer,
                 PRIMARY KEY (name,decoration_level),
@@ -134,8 +134,15 @@ c.execute('''
     ''')
 
 
+weaponData = []
+decoSlotsData = []
+
 # for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)
 while iteration < 14:
+
+    weaponData = []
+    decoSlotsData = []
+
     gsSite = "https://mhrise.kiranico.com/data/weapons?view=" + str(iteration)
     gsPage = requests.get(gsSite, headers=headers)
     soup = BeautifulSoup(gsPage.content, "html.parser")
@@ -494,11 +501,58 @@ while iteration < 14:
         
         print()
         # inserting values into database
+        weaponTable_query = """INSERT INTO weaponTable 
+                ( 
+                    weaponID,
+                    name,
+                    weapon_type,
+                    attack,
+                    elemental_type,
+                    elemental_damage,
+                    affinity,
+                    defense,
+                    red_sharpness_actual,
+                    orange_sharpness_actual,
+                    yellow_sharpness_actual,
+                    green_sharpness_actualteger,
+                    blue_sharpness_actual integer,
+                    white_sharpness_actual integer,
+                    purple_sharpness_actual integer,
+                    red_sharpness_potential integer,
+                    orange_sharpness_potential integer,
+                    yellow_sharpness_potential integer
+                    green_sharpness_potential integer,
+                    blue_sharpness_potential integer,
+                    white_sharpness_potential integer,
+                    purple_sharpness_potential integer,
+                    shelling_type text,
+                    phial_type text,
+                    phial_damage text,
+                    kinsect_level text,
+                    arc_shot_type text,
+                    deviation text,
+                    recoil text
+                )
+                VALUES
+                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
+        decorationSlots_query = """INSERT INTO decorationSlotsTable
+                                (
+                                    name,
+                                    decoration_level,
+                                    rampage_level,
+                                    weaponID,
+                                    armorID
+                                )
+                                VALUES
+                                (?,?,?,?,?)"""
 
-
-
-
+        try:
+            c.execute(weaponTable_query,weaponData)
+            c.execute(decorationSlots_query,decoSlotsData)
+            conn.commit()
+        except sqlite3.Error as error:
+            print("UH OH WE FAILED " , error)
 
         iteration = iteration + 1
 
