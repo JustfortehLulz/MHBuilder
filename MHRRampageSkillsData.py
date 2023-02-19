@@ -17,8 +17,7 @@ c = conn.cursor()
 c.execute('''
             CREATE TABLE IF NOT EXISTS rampageSkillTable
             (
-                rampageSkillID integer PRMIARY KEY,
-                rampageSkill text,
+                name text PRIMARY KEY,
                 bonuses text
             );
         ''')

@@ -45,8 +45,8 @@ c.execute('''
             CREATE TABLE IF NOT EXISTS weaponTable
             (
                 weaponID integer PRIMARY KEY,
-                name text,
                 weapon_type text,
+                name text,
                 attack integer,
                 elemental_type text,
                 elemental_damage integer,
@@ -76,77 +76,91 @@ c.execute('''
             );
         ''') 
 
-c.execute('''
-            CREATE TABLE IF NOT EXISTS decorationSlotsTable
-            (
-                [name] text,
-                [decoration_level] text,
-                rampage_level text,
-                weaponID integer,
-                armorID integer,
-                PRIMARY KEY (name,decoration_level),
-                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
-                FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
-            )
-        ''')
+# c.execute('''
+#             CREATE TABLE IF NOT EXISTS decorationSlotsTable
+#             (
+#                 [name] text,
+#                 [decoration_level] text,
+#                 rampage_level text,
+#                 weaponID integer,
+#                 armorID integer,
+#                 PRIMARY KEY (name,decoration_level),
+#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
+#                 FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
+#             )
+#         ''')
 
-c.execute('''
+# c.execute('''
 
-            CREATE TABLE IF NOT EXISTS huntingHornSongs
-            (
-                weaponID integer,
-                name text,
-                songName text,
-                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
-            )
-        ''')
+#             CREATE TABLE IF NOT EXISTS huntingHornSongs
+#             (
+#                 weaponID integer,
+#                 name text,
+#                 songName text,
+#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+#             )
+#         ''')
 
-c.execute('''
-            CREATE TABLE IF NOT EXISTS chargeShotTypes
-            (
-                weaponID integer,
-                name text,
-                chargeShotType text,
-                chargeShotLevel integer,
-                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
-            )
-        ''')
+# c.execute('''
+#             CREATE TABLE IF NOT EXISTS chargeShotTypes
+#             (
+#                 weaponID integer,
+#                 name text,
+#                 chargeShotType text,
+#                 chargeShotLevel integer,
+#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+#             )
+#         ''')
 
-c.execute('''
-            CREATE TABLE IF NOT EXISTS bowCoating
-            (
-                weaponID integer,
-                name text,
-                coatingType text,
-                compatiable integer CHECK (compatiable IN (0,1)),
-                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
-            )
-        ''')
+# c.execute('''
+#             CREATE TABLE IF NOT EXISTS bowCoating
+#             (
+#                 weaponID integer,
+#                 name text,
+#                 coatingType text,
+#                 compatiable integer CHECK (compatiable IN (0,1)),
+#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+#             )
+#         ''')
 
-c.execute('''
-            CREATE TABLE IF NOT EXISTS lightOrHeavyBowgunShots
-            (
-                weaponID integer,
-                name text,
-                shotType text,
-                level integer,
-                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
-            )
-    ''')
+# c.execute('''
+#             CREATE TABLE IF NOT EXISTS lightOrHeavyBowgunShots
+#             (
+#                 weaponID integer,
+#                 name text,
+#                 shotType text,
+#                 level integer,
+#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+#             )
+#     ''')
+
+# c.execute(
+#     '''
+#         CREATE TABLE IF NOT EXISTS weaponRamapgeSkills
+#         (
+#             weaponID integer,
+#             name text
+#             FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
+#             FOREIGN KEY(name) REFERENCES rampageSkillTable(name)
+#         )
+#     '''
+# )
 
 #holds the data to be pushed into the database
-weaponData = []
+#have everything be N/A?
+weaponData = ["N/A"]*29
 decoSlotsData = []
 huntingHornSongsData = []
 chargeShotTypesData = []
 bowCoatingData = []
 lightOrHeavyBowgunShotsData = []
+weaponID = 0
 
 # for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)
 while iteration < 14:
 
     #reset data for each entry
-    weaponData = []
+    weaponData = ["N/A"]*29
     decoSlotsData = []
     huntingHornSongsData = []
     chargeShotTypesData = []
@@ -161,6 +175,9 @@ while iteration < 14:
     weaponTypeName = weaponType.text
     weaponTypeName = weaponTypeName.strip()
     print(weaponTypeName)
+    #add weaponID and weaponName
+    weaponData[0] = weaponID
+    weaponData[1] = weaponTypeName
     weaponTable = soup.find("table")
 
     rows = weaponTable.findChildren("tr")
@@ -180,6 +197,7 @@ while iteration < 14:
             continue
         weaponLink = weaponName['href']
         print(weaponName.text)
+        weaponData[2] = weaponName.text
         #print(weaponName.get_text())
 
         # get deco slots and rampage slots
@@ -221,6 +239,7 @@ while iteration < 14:
         # get attack value
         weaponAttackVal = elem.find("div", {"data-key":"attack"})
         print("Attack Value: " + weaponAttackVal.get_text())
+        weaponData[3] = weaponAttackVal.get_text()
 
         # get the elemental damage defense affinity and sharpness level
         bonusesAndSharpness = elem.find_all("small")
@@ -234,24 +253,37 @@ while iteration < 14:
             elemental = elementalImg['src']
             if("ElementType1" in elemental):
                 print("Fireblight: " + str(elementalVal.get_text()))
+                weaponData[4] = "Fireblight"
             elif("ElementType2" in elemental):
                 print("Waterblight: " + str(elementalVal.get_text()))
+                weaponData[4] = "Waterblight"
             elif("ElementType3" in elemental):
                 print("Thunderblight: "+ str(elementalVal.get_text()))
+                weaponData[4] = "Thunderblight"
             elif("ElementType4" in elemental):
                 print("Iceblight: " + str(elementalVal.get_text()))
+                weaponData[4] = "Iceblight"
             elif("ElementType5" in elemental):
                 print("Dragonblight: " + str(elementalVal.get_text()))
+                weaponData[4] = "Dragonblight"
             elif("ElementType6" in elemental):
                 print("Poison Element: " + str(elementalVal.get_text()))
+                weaponData[4] = "Poison"
             elif("ElementType7" in elemental):
                 print("Sleep Element: " + str(elementalVal.get_text()))
+                weaponData[4] = "Sleep"
             elif("ElementType8" in elemental):
                 print("Paralysis Element: " + str(elementalVal.get_text()))
+                weaponData[4] = "Paralysis"
             elif("ElementType9" in elemental):
                 print("Blast Element: " + str(elementalVal.get_text()))
+                weaponData[4] = "Blast"
+            # get the elemental damage value
+            weaponData[5] = elementalVal.get_text()
         else:
             print("NO ELEMENTAL")
+            weaponData[4] = "N/A"
+            weaponData[5] = 0
         # both affinity and defense are under the div
         affinityOrDefense = bonuses.find_all("div")
         if(len(affinityOrDefense) != 0):
@@ -259,14 +291,23 @@ while iteration < 14:
             for elem in affinityOrDefense:
                 values = elem.text
                 parsedval = " ".join(values.split())
+                if("Affinity" in parsedval):
+                    print("Affinity")
+                    weaponData[6] = parsedval[9:]
+                elif("Defense" in parsedval):
+                    print("Defense")
+                    weaponData[7] = parsedval[7:]
                 print(parsedval)
         else:
             print("THERES NOTHING")
+            weaponData[6] = 0
+            weaponData[7] = 0
 
         # grabbing sharpness values
         sharpness = bonusesAndSharpness[3]
         isFirstRow = True
         sharpColor = []
+        i = 0
         totalSharpness = sharpness.find_all("rect")
         if(len(totalSharpness) != 0):
             for elem in totalSharpness:
@@ -274,8 +315,16 @@ while iteration < 14:
                 if(elem['fill'] in sharpColor):
                     print("SECOND ROW NOW")
                     isFirstRow = False
+                    i = 0
                 print(elem['fill'] + " " + elem['width'])
                 sharpColor.append(elem['fill'])
+                # insert the sharpness value for each colour
+                # However, some weapons do not have sharpness for certain colours
+                if(isFirstRow):
+                    weaponData[8+i] = elem['width']
+                else:
+                    weaponData[15+i] = elem['width']
+                i = i + 1
 
         # special cases
         # first - hunting horn songs and gunlance 

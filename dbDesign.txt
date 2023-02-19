@@ -78,12 +78,11 @@ Name
 Shot Type
 Level
 
--- Table of Rampage Skills --
+-- Table of Weapon Rampage Skills --
 ## Rampage Skills ##
 
-RampageSkillID (Primary Key)
-Name
-Rampage Skill
+WeaponID (Foreign Key from weapons table)
+Name (Foreign Key from rampage skills table)
 
 -- Table of Armor --
 ## Armor Table ##
@@ -116,8 +115,7 @@ Rampage Description
 
 -- Table of Rampage Skills --
 
-RampageSkillID (Primary Key)
-Rampage Skill
+Name (Primary Key)
 Bonuses
 
 -- Table of Skills --
