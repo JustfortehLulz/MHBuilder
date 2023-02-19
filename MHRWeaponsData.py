@@ -40,6 +40,7 @@ conn = sqlite3.connect(createWeaponDB)
 
 c = conn.cursor()
 
+#tables to be created inside of the database
 c.execute('''
             CREATE TABLE IF NOT EXISTS weaponTable
             (
@@ -133,20 +134,33 @@ c.execute('''
             )
     ''')
 
-
+#holds the data to be pushed into the database
 weaponData = []
 decoSlotsData = []
+huntingHornSongsData = []
+chargeShotTypesData = []
+bowCoatingData = []
+lightOrHeavyBowgunShotsData = []
 
 # for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)
 while iteration < 14:
 
+    #reset data for each entry
     weaponData = []
     decoSlotsData = []
+    huntingHornSongsData = []
+    chargeShotTypesData = []
+    bowCoatingData = []
+    lightOrHeavyBowgunShotsData = []
 
     gsSite = "https://mhrise.kiranico.com/data/weapons?view=" + str(iteration)
     gsPage = requests.get(gsSite, headers=headers)
     soup = BeautifulSoup(gsPage.content, "html.parser")
 
+    weaponType = soup.find("h1", {"class" : "font-display text-3xl tracking-tight text-slate-900 dark:text-white"})
+    weaponTypeName = weaponType.text
+    weaponTypeName = weaponTypeName.strip()
+    print(weaponTypeName)
     weaponTable = soup.find("table")
 
     rows = weaponTable.findChildren("tr")
@@ -187,7 +201,7 @@ while iteration < 14:
                 elif("deco4" in levelDeco):
                     print("DECORATION LEVEL 4")
 
-        # same process as finding decorations
+        # rampage decorations same process as finding decorations
         rampageDeco = slots[1]
         totalRampageDeco = rampageDeco.find_all("img", src = True)
         if(len(totalRampageDeco) == 0):
@@ -546,10 +560,50 @@ while iteration < 14:
                                 )
                                 VALUES
                                 (?,?,?,?,?)"""
-
+        huntingHornSongs_query = """INSERT INTO huntingHornSongs
+                                (
+                                    weaponID,
+                                    name,
+                                    songName,
+                                )
+                                VALUES
+                                (?,?,?)"""
+        chargeShotTypes_query = """INSERT INTO chargeShotTypes
+                                (
+                                    weaponID,
+                                    name,
+                                    chargeShotType,
+                                    chargeShotLevel
+                                )
+                                VALUES
+                                (?,?,?,?)
+                                """
+        bowCoating_query = """INSERT INTO bowCoating
+                           (
+                                weaponID,
+                                name,
+                                coatingType,
+                                compatiable
+                           ) 
+                           VALUES
+                           (?,?,?,?)
+                           """
+        lightOrHeavyBowgunShots_query = """INSERT INTO lightOrHeavyBowgunShots
+                                        (
+                                            weaponID,
+                                            name,
+                                            shotType,
+                                            level
+                                        )
+                                        VALUES
+                                        (?,?,?,?)
+                                        """
         try:
             c.execute(weaponTable_query,weaponData)
             c.execute(decorationSlots_query,decoSlotsData)
+            c.execute(huntingHornSongs_query,huntingHornSongsData)
+            c.execute(bowCoating_query,bowCoatingData)
+            c.execute(lightOrHeavyBowgunShots_query,lightOrHeavyBowgunShotsData)
             conn.commit()
         except sqlite3.Error as error:
             print("UH OH WE FAILED " , error)
