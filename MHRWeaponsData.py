@@ -34,47 +34,48 @@ import requests
 headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'}
 iteration = 0
 
-createWeaponDB = r"C:\Users\JY\Documents\FlutterProject\mhbuilder\WeaponData.db"
+# createWeaponDB = r"C:\Users\JY\Documents\FlutterProject\mhbuilder\WeaponData.db"
 
-conn = sqlite3.connect(createWeaponDB)
+# conn = sqlite3.connect(createWeaponDB)
 
-c = conn.cursor()
+# c = conn.cursor()
 
-#tables to be created inside of the database
-c.execute('''
-            CREATE TABLE IF NOT EXISTS weaponTable
-            (
-                weaponID integer PRIMARY KEY,
-                weapon_type text,
-                name text,
-                attack integer,
-                elemental_type text,
-                elemental_damage integer,
-                affinity text,
-                defense integer,
-                red_sharpness_actual integer,
-                orange_sharpness_actual integer,
-                yellow_sharpness_actual integer,
-                green_sharpness_actual integer,
-                blue_sharpness_actual integer,
-                white_sharpness_actual integer,
-                purple_sharpness_actual integer,
-                red_sharpness_potential integer,
-                orange_sharpness_potential integer,
-                yellow_sharpness_potential integer,
-                green_sharpness_potential integer,
-                blue_sharpness_potential integer,
-                white_sharpness_potential integer,
-                purple_sharpness_potential integer,
-                shelling_type text,
-                phial_type text,
-                phial_damage text,
-                kinsect_level text,
-                arc_shot_type text,
-                deviation text,
-                recoil text
-            );
-        ''') 
+# #tables to be created inside of the database
+# c.execute('''
+#             CREATE TABLE IF NOT EXISTS weaponTable
+#             (
+#                 weaponID integer PRIMARY KEY,
+#                 weapon_type text,
+#                 name text,
+#                 attack integer,
+#                 elemental_type text,
+#                 elemental_damage integer,
+#                 affinity text,
+#                 defense integer,
+#                 red_sharpness_actual integer,
+#                 orange_sharpness_actual integer,
+#                 yellow_sharpness_actual integer,
+#                 green_sharpness_actual integer,
+#                 blue_sharpness_actual integer,
+#                 white_sharpness_actual integer,
+#                 purple_sharpness_actual integer,
+#                 red_sharpness_potential integer,
+#                 orange_sharpness_potential integer,
+#                 yellow_sharpness_potential integer,
+#                 green_sharpness_potential integer,
+#                 blue_sharpness_potential integer,
+#                 white_sharpness_potential integer,
+#                 purple_sharpness_potential integer,
+#                 shelling_type text,
+#                 phial_type text,
+#                 phial_damage text,
+#                 kinsect_level text,
+#                 arc_shot_type text,
+#                 deviation text,
+#                 recoil text,
+#                 reload text
+#             );
+#         ''') 
 
 # c.execute('''
 #             CREATE TABLE IF NOT EXISTS decorationSlotsTable
@@ -148,7 +149,7 @@ c.execute('''
 
 #holds the data to be pushed into the database
 #have everything be N/A?
-weaponData = ["N/A"]*29
+weaponData = ["N/A"]*31
 decoSlotsData = []
 huntingHornSongsData = []
 chargeShotTypesData = []
@@ -159,8 +160,9 @@ weaponID = 0
 # for loop here iterate by https://mhrise.kiranico.com/data/weapons?view=(i)
 while iteration < 14:
 
+    iteration = 0
     #reset data for each entry
-    weaponData = ["N/A"]*29
+    weaponData = ["N/A"]*31
     decoSlotsData = []
     huntingHornSongsData = []
     chargeShotTypesData = []
@@ -175,8 +177,7 @@ while iteration < 14:
     weaponTypeName = weaponType.text
     weaponTypeName = weaponTypeName.strip()
     print(weaponTypeName)
-    #add weaponID and weaponName
-    weaponData[0] = weaponID
+    #add weaponType
     weaponData[1] = weaponTypeName
     weaponTable = soup.find("table")
 
@@ -185,6 +186,8 @@ while iteration < 14:
 
     # go through the entire table going through each row
     for elem in rows:
+        #unique ID for each weapon
+        weaponData[0] = weaponID
         # get weapon name
         #print(elem)
 
@@ -314,20 +317,26 @@ while iteration < 14:
                 # this is required in order for the max potential of sharpness of a weapon
                 if(elem['fill'] in sharpColor):
                     print("SECOND ROW NOW")
+                    if(isFirstRow):
+                        i = 0
                     isFirstRow = False
-                    i = 0
                 print(elem['fill'] + " " + elem['width'])
                 sharpColor.append(elem['fill'])
                 # insert the sharpness value for each colour
                 # However, some weapons do not have sharpness for certain colours
                 if(isFirstRow):
-                    weaponData[8+i] = elem['width']
+                    weaponData[9+i] = elem['width']
                 else:
-                    weaponData[15+i] = elem['width']
+                    weaponData[16+i] = elem['width']
                 i = i + 1
 
         # special cases
         # first - hunting horn songs and gunlance 
+        # iteration 5 = hunting horn
+        # iteration 7 = gunlance 
+        # iteration 8 = switch axe
+        # iteration 9 = charge blade
+        # iteration 10 = insect glaive
         if(iteration == 5 or iteration == 7 or iteration == 8 or iteration == 9 or iteration == 10):
             # grab the song names
             songsList = bonusesAndSharpness[4]
@@ -335,9 +344,30 @@ while iteration < 14:
             for elem in songsList:
                 values = elem.text
                 parsedval = " ".join(values.split())
+                parsedval = parsedval.strip()
                 if(iteration == 5):
                     print((elem.text).strip())
                 else:
+                    if(iteration == 7):
+                        weaponData[23] = parsedval
+                    elif(iteration == 8 or iteration == 9):
+                        if(not (parsedval == "")):
+                            print(parsedval)
+                            switchAxe = parsedval.split()
+                            #type of phial
+                            print(switchAxe[0])
+                            weaponData[24] = switchAxe[0]
+                            #check if there is a damage value of phial
+                            print(switchAxe[-1])
+                            if(switchAxe[-1].isdigit()):
+                                weaponData[25] = switchAxe[-1]
+                    elif(iteration == 10):
+                        if(not (parsedval == "")):
+                            print(parsedval)
+                            insectGlaive = parsedval.split()
+                            # level of kinsect
+                            print(insectGlaive[-1])
+                            weaponData[26] = insectGlaive[-1]
                     print(parsedval)
         #bow stuff
         elif(iteration == 11):
@@ -349,6 +379,7 @@ while iteration < 14:
             for elem in chargeShot:
                 if(isArcShot):
                     print("Arc Shot: " + elem.text)
+                    weaponData[27] = elem.text
                     isArcShot = False
                 else:
                     print("Charge Shot " + str(chargeLevel) + ": " + elem.text)
@@ -400,6 +431,12 @@ while iteration < 14:
                 #print(parsedval)
                 parsedval = " ".join(parsedval)
                 parsedval = parsedval.strip()
+                if("Deviation" in parsedval):
+                    weaponData[28] = parsedval[9:]
+                elif("Recoil" in parsedval):
+                    weaponData[29] = parsedval[7:]
+                elif("Reload" in parsedval):
+                    weaponData[30] = parsedval[7:]
                 print(parsedval)
             #print(shotStatsVal)
             shotTypes = shotTypes[1:2]
@@ -563,100 +600,104 @@ while iteration < 14:
 
         
         print()
+        print(weaponData)
+        # incrementing for the next weapon
+        weaponID = weaponID + 1
         # inserting values into database
-        weaponTable_query = """INSERT INTO weaponTable 
-                ( 
-                    weaponID,
-                    name,
-                    weapon_type,
-                    attack,
-                    elemental_type,
-                    elemental_damage,
-                    affinity,
-                    defense,
-                    red_sharpness_actual,
-                    orange_sharpness_actual,
-                    yellow_sharpness_actual,
-                    green_sharpness_actualteger,
-                    blue_sharpness_actual integer,
-                    white_sharpness_actual integer,
-                    purple_sharpness_actual integer,
-                    red_sharpness_potential integer,
-                    orange_sharpness_potential integer,
-                    yellow_sharpness_potential integer
-                    green_sharpness_potential integer,
-                    blue_sharpness_potential integer,
-                    white_sharpness_potential integer,
-                    purple_sharpness_potential integer,
-                    shelling_type text,
-                    phial_type text,
-                    phial_damage text,
-                    kinsect_level text,
-                    arc_shot_type text,
-                    deviation text,
-                    recoil text
-                )
-                VALUES
-                (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
+        # weaponTable_query = """INSERT INTO weaponTable 
+        #         ( 
+        #             weaponID,
+        #             name,
+        #             weapon_type,
+        #             attack,
+        #             elemental_type,
+        #             elemental_damage,
+        #             affinity,
+        #             defense,
+        #             red_sharpness_actual,
+        #             orange_sharpness_actual,
+        #             yellow_sharpness_actual,
+        #             green_sharpness_actual,
+        #             blue_sharpness_actual,
+        #             white_sharpness_actual,
+        #             purple_sharpness_actual,
+        #             red_sharpness_potential,
+        #             orange_sharpness_potential,
+        #             yellow_sharpness_potential,
+        #             green_sharpness_potential,
+        #             blue_sharpness_potential,
+        #             white_sharpness_potential,
+        #             purple_sharpness_potential,
+        #             shelling_type,
+        #             phial_type,
+        #             phial_damage,
+        #             kinsect_level,
+        #             arc_shot_type,
+        #             deviation,
+        #             recoil,
+        #             reload
+        #         )
+        #         VALUES
+        #         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
-        decorationSlots_query = """INSERT INTO decorationSlotsTable
-                                (
-                                    name,
-                                    decoration_level,
-                                    rampage_level,
-                                    weaponID,
-                                    armorID
-                                )
-                                VALUES
-                                (?,?,?,?,?)"""
-        huntingHornSongs_query = """INSERT INTO huntingHornSongs
-                                (
-                                    weaponID,
-                                    name,
-                                    songName,
-                                )
-                                VALUES
-                                (?,?,?)"""
-        chargeShotTypes_query = """INSERT INTO chargeShotTypes
-                                (
-                                    weaponID,
-                                    name,
-                                    chargeShotType,
-                                    chargeShotLevel
-                                )
-                                VALUES
-                                (?,?,?,?)
-                                """
-        bowCoating_query = """INSERT INTO bowCoating
-                           (
-                                weaponID,
-                                name,
-                                coatingType,
-                                compatiable
-                           ) 
-                           VALUES
-                           (?,?,?,?)
-                           """
-        lightOrHeavyBowgunShots_query = """INSERT INTO lightOrHeavyBowgunShots
-                                        (
-                                            weaponID,
-                                            name,
-                                            shotType,
-                                            level
-                                        )
-                                        VALUES
-                                        (?,?,?,?)
-                                        """
-        try:
-            c.execute(weaponTable_query,weaponData)
-            c.execute(decorationSlots_query,decoSlotsData)
-            c.execute(huntingHornSongs_query,huntingHornSongsData)
-            c.execute(bowCoating_query,bowCoatingData)
-            c.execute(lightOrHeavyBowgunShots_query,lightOrHeavyBowgunShotsData)
-            conn.commit()
-        except sqlite3.Error as error:
-            print("UH OH WE FAILED " , error)
+        # decorationSlots_query = """INSERT INTO decorationSlotsTable
+        #                         (
+        #                             name,
+        #                             decoration_level,
+        #                             rampage_level,
+        #                             weaponID,
+        #                             armorID
+        #                         )
+        #                         VALUES
+        #                         (?,?,?,?,?)"""
+        # huntingHornSongs_query = """INSERT INTO huntingHornSongs
+        #                         (
+        #                             weaponID,
+        #                             name,
+        #                             songName,
+        #                         )
+        #                         VALUES
+        #                         (?,?,?)"""
+        # chargeShotTypes_query = """INSERT INTO chargeShotTypes
+        #                         (
+        #                             weaponID,
+        #                             name,
+        #                             chargeShotType,
+        #                             chargeShotLevel
+        #                         )
+        #                         VALUES
+        #                         (?,?,?,?)
+        #                         """
+        # bowCoating_query = """INSERT INTO bowCoating
+        #                    (
+        #                         weaponID,
+        #                         name,
+        #                         coatingType,
+        #                         compatiable
+        #                    ) 
+        #                    VALUES
+        #                    (?,?,?,?)
+        #                    """
+        # lightOrHeavyBowgunShots_query = """INSERT INTO lightOrHeavyBowgunShots
+        #                                 (
+        #                                     weaponID,
+        #                                     name,
+        #                                     shotType,
+        #                                     level
+        #                                 )
+        #                                 VALUES
+        #                                 (?,?,?,?)
+        #                                 """
+        # try:
+        #     c.execute(weaponTable_query,weaponData)
+        #     c.execute(decorationSlots_query,decoSlotsData)
+        #     c.execute(huntingHornSongs_query,huntingHornSongsData)
+        #     c.execute(bowCoating_query,bowCoatingData)
+        #     c.execute(lightOrHeavyBowgunShots_query,lightOrHeavyBowgunShotsData)
+        #     conn.commit()
+        # except sqlite3.Error as error:
+        #     print("UH OH WE FAILED " , error)
 
-        iteration = iteration + 1
+    iteration = iteration + 1
 
-conn.close()
+# conn.close()
