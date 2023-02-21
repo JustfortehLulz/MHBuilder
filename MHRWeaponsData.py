@@ -78,19 +78,19 @@ c.execute('''
             );
         ''') 
 
-# c.execute('''
-#             CREATE TABLE IF NOT EXISTS decorationSlotsTable
-#             (
-#                 [name] text,
-#                 [decoration_level] text,
-#                 rampage_level text,
-#                 weaponID integer,
-#                 armorID integer,
-#                 PRIMARY KEY (name,decoration_level),
-#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
-#                 FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
-#             )
-#         ''')
+c.execute('''
+            CREATE TABLE IF NOT EXISTS decorationSlotsTable
+            (
+                name text,
+                decoration_level text,
+                rampage_level text,
+                weaponID integer,
+                armorID integer,
+                PRIMARY KEY (weaponID,armorID),
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
+                FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
+            )
+        ''')
 
 # c.execute('''
 
@@ -151,7 +151,7 @@ c.execute('''
 #holds the data to be pushed into the database
 #have everything be N/A?
 weaponData = ["N/A"]*30
-decoSlotsData = []
+decoSlotsData = ["N/A"]*5
 huntingHornSongsData = []
 chargeShotTypesData = []
 bowCoatingData = []
@@ -162,7 +162,7 @@ weaponID = 0
 while iteration < 14:
     #reset data for each entry
     weaponData = ["N/A"]*30
-    decoSlotsData = []
+    decoSlotsData = ["N/A"]*5
     huntingHornSongsData = []
     chargeShotTypesData = []
     bowCoatingData = []
@@ -185,8 +185,12 @@ while iteration < 14:
 
     # go through the entire table going through each row
     for elem in rows:
+        #reset data after each row
+        weaponData = ["N/A"]*30
+        decoSlotsData = ["N/A"]*5
         #unique ID for each weapon
         weaponData[0] = weaponID
+        decoSlotsData[3] = weaponID
         # get weapon name
         #print(elem)
 
@@ -200,6 +204,7 @@ while iteration < 14:
         weaponLink = weaponName['href']
         print(weaponName.text)
         weaponData[2] = weaponName.text
+        decoSlotsData[0] = weaponName.text
         #print(weaponName.get_text())
 
         # get deco slots and rampage slots
