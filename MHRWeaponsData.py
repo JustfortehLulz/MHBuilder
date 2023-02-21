@@ -696,8 +696,6 @@ while iteration < 14:
             conn.commit()
         except sqlite3.Error as error:
             print("UH OH WE FAILED " , error)
-        if(weaponID == 20):
-            conn.close()
     iteration = iteration + 1
 
 conn.close()
