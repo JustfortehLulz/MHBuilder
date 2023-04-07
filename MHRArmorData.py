@@ -7,7 +7,8 @@ import requests
 
 headers = {"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'}
 
-createWeaponDB = r"C:\Users\JY\Documents\FlutterProject\mhbuilder\WeaponData.db"
+# different path
+createWeaponDB = r"D:\Coding_Projects\flutter_windows_3.7.3-stable\flutter_code\MHBuilder\MHBuilderWeaponData.db"
 
 conn = sqlite3.connect(createWeaponDB)
 
@@ -17,7 +18,7 @@ c.execute('''
             CREATE TABLE IF NOT EXISTS armorTable
             (
                 armorID integer PRIMARY KEY,
-                [name] text,
+                name text,
                 defense integer,
                 fire_resistance integer,
                 water_resistance integer,
@@ -27,19 +28,19 @@ c.execute('''
             );
         ''')
 
-c.execute('''
-            CREATE TABLE IF NOT EXISTS decorationSlotsTable
-            (
-                [name] text,
-                [decoration_level] text,
-                rampage_level text
-                weaponID integer,
-                armorID integer,
-                PRIMARY KEY (name,decoration_level),
-                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
-                FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
-            )
-        ''')
+# c.execute('''
+#             CREATE TABLE IF NOT EXISTS decorationSlotsTable
+#             (
+#                 [name] text,
+#                 [decoration_level] text,
+#                 rampage_level text
+#                 weaponID integer,
+#                 armorID integer,
+#                 PRIMARY KEY (name,decoration_level),
+#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
+#                 FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
+#             )
+#         ''')
 
 # there are multiple pages with the armor values view=0 to view=9
 i = 0
