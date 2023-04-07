@@ -76,26 +76,24 @@ c.execute('''
             );
         ''') 
 
-# c.execute('''
-#             CREATE TABLE IF NOT EXISTS decorationSlotsTable
-#             (
-#                 [name] text,
-#                 [decoration_level] text,
-#                 rampage_level text,
-#                 weaponID integer,
-#                 armorID integer,
-#                 PRIMARY KEY (name,decoration_level),
-#                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
-#                 FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
-#             )
-#         ''')
+c.execute('''
+            CREATE TABLE IF NOT EXISTS decorationSlotsTable
+            (
+                weaponID integer,
+                armorID integer,
+                decoration_level integer,
+                rampage_level integer,
+                PRIMARY KEY (weaponID,armorID),
+                FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID),
+                FOREIGN KEY(armorID) REFERENCES armorTable(armorID)
+            )
+        ''')
 
 # c.execute('''
 
 #             CREATE TABLE IF NOT EXISTS huntingHornSongs
 #             (
 #                 weaponID integer,
-#                 name text,
 #                 songName text,
 #                 FOREIGN KEY(weaponID) REFERENCES weaponTable(weaponID)
 #             )
@@ -149,8 +147,8 @@ c.execute('''
 #holds the data to be pushed into the database
 #have everything be N/A?
 weaponData = ["N/A"]*29
-decoSlotsData = []
-huntingHornSongsData = []
+decoSlotsData = ["N/A"]*4
+huntingHornSongsData = ["N/A"]*2
 chargeShotTypesData = []
 bowCoatingData = []
 lightOrHeavyBowgunShotsData = []
@@ -161,8 +159,8 @@ while iteration < 14:
 
     #reset data for each entry
     weaponData = ["N/A"]*29
-    decoSlotsData = []
-    huntingHornSongsData = []
+    decoSlotsData = ["N/A"]*4
+    huntingHornSongsData = ["N/A"]*2
     chargeShotTypesData = []
     bowCoatingData = []
     lightOrHeavyBowgunShotsData = []
@@ -175,9 +173,11 @@ while iteration < 14:
     weaponTypeName = weaponType.text
     weaponTypeName = weaponTypeName.strip()
     print(weaponTypeName)
-    #add weaponID and weaponName
+    #add weaponID and weaponName for weaponTable
     weaponData[0] = weaponID
     weaponData[1] = weaponTypeName
+
+
     weaponTable = soup.find("table")
 
     rows = weaponTable.findChildren("tr")
@@ -207,17 +207,45 @@ while iteration < 14:
         # determine if there are decorations or not and then print how many decorations there are and the level
         if(len(totalDeco) == 0):
             print("THERE ARE NO DECORATIONS")
+            # do not push any data to the database
         else:
             for foundDeco in totalDeco:
+                # reset each time to clear the data
+                decoSlotsData = ["N/A"]*4
                 levelDeco = foundDeco['src']
                 if("deco1" in levelDeco):
                     print("DECORATION LEVEL 1")
+                    decoSlotsData[2] = 1
                 elif("deco2" in levelDeco):
                     print("DECORATION LEVEL 2")
+                    decoSlotsData[2] = 2
                 elif("deco3" in levelDeco):
                     print("DECORATION LEVEL 3")
+                    decoSlotsData[2] = 3
                 elif("deco4" in levelDeco):
                     print("DECORATION LEVEL 4")
+                    decoSlotsData[2] = 4
+                # push the data everytime here
+                decoSlotsData[0] = weaponID
+                # decoSlotsData[1] is for the armorID, there is no armor here
+                decoSlotsData[1] = 0
+                # decoSlotsData[3] is for the rampage level, there is no rampage level (deal with that in the following for loop)
+                decoSlotsData[3] = None
+
+                decorationSlots_query = """INSERT INTO decorationSlotsTable
+                    (
+                        weaponID integer,
+                        armorID integer,
+                        decoration_level integer,
+                        rampage_level integer,
+                    )
+                    VALUES
+                    (?,?,?,?,?)"""
+                try:
+                    c.execute(decorationSlots_query,decoSlotsData)
+                    conn.commit()
+                except sqlite3.Error as error:
+                    print("UH OH WE FAILED " , error)
 
         # rampage decorations same process as finding decorations
         rampageDeco = slots[1]
@@ -226,15 +254,42 @@ while iteration < 14:
             print("THERE ARE NO RAMPAGE DECORATIONS")
         else:
             for foundRampage in totalRampageDeco:
+                decoSlotsData = ["N/A"]*4
                 levelRampage = foundRampage['src']
                 if("deco1" in levelRampage):
                     print("RAMPAGE LEVEL 1")
+                    decoSlotsData[3] = 1
                 elif("deco2" in levelRampage):
                     print("RAMPAGE LEVEL 2")
+                    decoSlotsData[3] = 2
                 elif("deco3" in levelRampage):
                     print("RAMPAGE LEVEL 3")
+                    decoSlotsData[3] = 3
                 elif("deco4" in levelRampage):
                     print("RAMPAGE LEVEL 4")
+                    decoSlotsData[3] = 4
+
+                decoSlotsData[0] = weaponID
+                # decoSlotsData[1] is zero because that is reserved for armorID 
+                decoSlotsData[1] = 0
+                # decoSlotsData[2] is None since that is for normal slots level
+                decoSlotsData[2] = None
+
+                # push the data everytime here
+                decorationSlots_query = """INSERT INTO decorationSlotsTable
+                    (
+                        weaponID integer,
+                        armorID integer,
+                        decoration_level integer,
+                        rampage_level integer,
+                    )
+                    VALUES
+                    (?,?,?,?,?)"""
+                try:
+                    c.execute(decorationSlots_query,decoSlotsData)
+                    conn.commit()
+                except sqlite3.Error as error:
+                    print("UH OH WE FAILED " , error)
 
         # get attack value
         weaponAttackVal = elem.find("div", {"data-key":"attack"})
@@ -599,16 +654,16 @@ while iteration < 14:
                 VALUES
                 (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
 
-        decorationSlots_query = """INSERT INTO decorationSlotsTable
-                                (
-                                    name,
-                                    decoration_level,
-                                    rampage_level,
-                                    weaponID,
-                                    armorID
-                                )
-                                VALUES
-                                (?,?,?,?,?)"""
+        # decorationSlots_query = """INSERT INTO decorationSlotsTable
+        #                         (
+        #                             name,
+        #                             decoration_level,
+        #                             rampage_level,
+        #                             weaponID,
+        #                             armorID
+        #                         )
+        #                         VALUES
+        #                         (?,?,?,?,?)"""
         huntingHornSongs_query = """INSERT INTO huntingHornSongs
                                 (
                                     weaponID,
@@ -649,7 +704,7 @@ while iteration < 14:
                                         """
         try:
             c.execute(weaponTable_query,weaponData)
-            c.execute(decorationSlots_query,decoSlotsData)
+            #c.execute(decorationSlots_query,decoSlotsData)
             c.execute(huntingHornSongs_query,huntingHornSongsData)
             c.execute(bowCoating_query,bowCoatingData)
             c.execute(lightOrHeavyBowgunShots_query,lightOrHeavyBowgunShotsData)
@@ -657,6 +712,8 @@ while iteration < 14:
         except sqlite3.Error as error:
             print("UH OH WE FAILED " , error)
 
-        iteration = iteration + 1
+        weaponID = weaponID + 1
+
+    iteration = iteration + 1
 
 conn.close()
